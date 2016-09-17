@@ -1,4 +1,5 @@
 # 概要
++ ansibleはmacにインストール
 + CentOS 6.8にて実行
 + ruby
   + 2.3.1
@@ -13,8 +14,16 @@
   + 設定の変更はgitlab-ctl reconfigure
   + 再起動はgitlab-ctl restart
 + redmine
+  + 3.2系
   + nginx
   + unicorn
+  + 初期アカウントは admin / admin
++ 実行順
+  + nginx
+  + ruby
+  + mysql
+  + gitlab
+  + redmine
 
 # playbookの実行
 ```
