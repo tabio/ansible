@@ -282,7 +282,7 @@ gitlab_rails['db_username'] = "{{ mysql_user_gitlab }}"
 gitlab_rails['db_password'] = "{{ mysql_pass_gitlab }}"
 gitlab_rails['db_host'] = "127.0.0.1"
 gitlab_rails['db_port'] = 3306
-gitlab_rails['db_socket'] = "/var/lib/mysql/mysql.sock"
+gitlab_rails['db_socket'] = "{{ mysql_socket }}"
 # gitlab_rails['db_sslmode'] = nil
 # gitlab_rails['db_sslrootcert'] = nil
 

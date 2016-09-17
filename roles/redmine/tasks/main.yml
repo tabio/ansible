@@ -1,3 +1,4 @@
+# unicorn起動用のinit.dスクリプト追加
 - name: install development tools
   yum: name='@Development Tools'
 

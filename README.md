@@ -1,3 +1,21 @@
+# 概要
++ CentOS 6.8にて実行
++ ruby
+  + 2.3.1
+  + rbenvを利用
++ mysql 5.7
++ redis
+  + 3系
++ gitlab
+  + nginxは自前
+  + DBはmysqlを使用するよう変更
+  + redisはembededの物を利用
+  + 設定の変更はgitlab-ctl reconfigure
+  + 再起動はgitlab-ctl restart
++ redmine
+  + nginx
+  + unicorn
+
 # playbookの実行
 ```
 ansible-playbook -i host playbook名

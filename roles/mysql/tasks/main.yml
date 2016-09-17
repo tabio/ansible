@@ -1,3 +1,5 @@
+# mysql 5.7
+# インストール後は初期化とユーザー追加は別途必要
 - name: add signature
   command: rpm --import http://dev.mysql.com/doc/refman/5.7/en/checking-gpg-signature.html
 
@@ -21,7 +23,7 @@
   command: chkconfig mysqld on
 
 - name: install my.cnf
-  copy: >
+  template: >
     src={{ item }}
     dest=/etc/{{ item }}
     backup=yes
