@@ -22,15 +22,6 @@
 - name: install gitlab-ce
   yum: name=gitlab-ce enablerepo=gitlab_gitlab-ce
 
-- name: modify gitlab.rb
-  copy: >
-    src={{ item }}
-    dest=/etc/gitlab/{{ item }}
-    backup=yes
-    mode=0600
-  with_items:
-    - gitlab.rb
-
 - name: install gitlab.rb
   template: >
     src={{ item }}.j2
