@@ -1,0 +1,118 @@
+- name: install development tools
+  yum: name='@Development Tools'
+
+- name: install downgrade libyaml
+  command: yum -y downgrade libyaml
+
+- name: install packages for ruby
+  yum: name={{ item }} state=latest
+  with_items:
+    - openssl-devel
+    - readline-devel
+    - zlib-devel
+    - curl-devel
+    - libffi-devel
+    - libyaml
+
+- name: install ImageMagick
+  yum: name='ImageMagick,ImageMagick-devel,ipa-pgothic-fonts'
+
+- name: install svn
+  yum: name='svn'
+
+- name: checkout redmine source
+  subversion:
+    repo={{ redmine_svn_url }}
+    dest={{ redmine_dir }}
+
+- name: add unicorn to Gemfile
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: source ~/.bash_profile; cd {{ redmine_dir }}; echo -e "\n#add unicorn\ngem 'uniron'" >> Gemfile
+
+- name: install database.yml
+  template:
+    src=database.yml
+    dest={{ redmine_dir }}/config/database.yml
+
+- name: install configuration.yml
+  template:
+    src=configuration.yml
+    dest={{ redmine_dir }}/config/configuration.yml
+
+- name: install gems
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: source ~/.bash_profile; cd {{ redmine_dir }}; bundle install --path vendor/bundle
+
+- name: set secret token
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: source ~/.bash_profile; cd {{ redmine_dir }}; bundle exec rake generate_secret_token RAILS_ENV=production
+
+- name: database migration
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: source ~/.bash_profile; cd {{ redmine_dir }}; bundle exec rake db:migrate RAILS_ENV=production
+
+- name: load japanese locale
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: source ~/.bash_profile; cd {{ redmine_dir }}; bundle exec rake redmine:load_default_data RAILS_ENV=production REDMINE_LANG=ja
+
+- name: donwload thema farend_basic
+  git:
+    repo={{ redmine_theme_url }}
+    dest={{ redmine_dir }}/public/themes/farend_basic
+
+- name: add redmine user
+  shell: useradd -s /sbin/nologin redmine
+
+- name: install unicorn config
+  template:
+    src=unicorn.rb
+    dest={{ redmine_dir }}/config/unicorn.rb
+
+- name: change owner
+  shell: chown -R redmine.redmine {{ redmine_dir }}
+
+- name: install /etc/init.d/unicorn
+  template: >
+    src={{ item }}
+    dest=/etc/init.d/{{ item }}
+    backup=yes
+    mode=0755
+  with_items:
+    - unicorn
+
+- name: add chkconfig unicorn
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: chkconfig --add unicorn
+    - cmd: chkconfig unicorn on
+
+- name: directory for unicorn setting
+  file: path=/etc/unicorn state=directory owner=root group=root mode=0755
+
+- name: install /etc/unicorn/redmine.conf
+  template: >
+    src={{ item }}
+    dest=/etc/unicorn/{{ item }}
+    mode=0744
+  with_items:
+    - unicorn_redmine.conf
+
+- name: unicorn restart
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: source ~/.bash_profile; /etc/init.d/unicorn restart
+
+- name: install virtual host config for redmine
+  template: >
+    src={{ item }}
+    dest=/etc/nginx/conf.d/{{ item }}
+    backup=yes
+    mode=0644
+  with_items:
+    - redmine.conf
+  notify: restart nginx

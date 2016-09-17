@@ -1,0 +1,56 @@
+- name: install package for gitlab
+  yum: name={{ item }} state=latest
+  with_items:
+    - curl
+    - openssh-server
+    - openssh-clients
+    - postfix
+    - cronie
+
+- name: execute install script
+  shell: curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | bash
+
+- name: enabled is 0
+  replace: dest=/etc/yum.repos.d/{{ item }} regexp="enabled *= *1" replace="enabled=0"
+  with_items:
+    - gitlab_gitlab-ce.repo
+
+- name: install gitlab-ce
+  yum: name=gitlab-ce enablerepo=gitlab_gitlab-ce
+
+- name: modify gitlab.rb
+  copy: >
+    src={{ item }}
+    dest=/etc/gitlab/{{ item }}
+    backup=yes
+    mode=0600
+  with_items:
+    - gitlab.rb
+
+- name: install gitlab.rb
+  template: >
+    src={{ item }}.j2
+    dest=/etc/gitlab/{{ item }}
+    backup=yes
+    mode=0600
+  with_items:
+    - gitlab.rb
+
+- name: replace /opt/gitlab/embedded/service/gitlab-rails/.bundle/config for mysql
+  replace: dest=/opt/gitlab/embedded/service/gitlab-rails/.bundle/config regexp='development:test:mysql' replace='development:test'
+
+- name: modify bundle setting for mysql
+  shell: source ~/.bash_profile; cd /opt/gitlab/embedded/service/gitlab-rails/; bundle install
+
+- name: reconfigure
+  command: gitlab-ctl reconfigure
+
+- name: install virtual host config for gitlab
+  template: >
+    src={{ item }}.j2
+    dest=/etc/nginx/conf.d/{{ item }}
+    backup=yes
+    mode=0644
+  with_items:
+    - gitlab-http.conf
+  notify: restart nginx

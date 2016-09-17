@@ -1,0 +1,26 @@
+allow_ip: # private IP
+ruby_ver: 2.3.1
+
+# redis
+redis_socket: /tmp/redis.sock
+
+# mysql root
+mysql_pass_root: # mysqlのrootパスワード
+
+# gitlab
+gitlab_domain: # gitlabのドメイン名
+mysql_db_gitlab: gitlabhq_production
+mysql_user_gitlab: gitlab
+mysql_pass_gitlab: # gitlab用のパスワード
+external_users_gitlab: nginx
+external_url_gitlab: http://xxxxxx # gitlabのドメイン名
+
+# redmine
+redmine_svn_url: http://svn.redmine.org/redmine/branches/3.2-stable
+redmine_theme_url: https://github.com/farend/redmine_theme_farend_basic.git
+redmine_dir: /var/lib/redmine
+redmine_domain:  # redmineのドメイン名
+redmine_font_path: /usr/share/fonts/truetype/takao-gothic/TakaoPGothic.ttf
+mysql_db_redmine: redmine
+mysql_user_redmine: redmine
+mysql_pass_redmine: # redmine用のパスワード

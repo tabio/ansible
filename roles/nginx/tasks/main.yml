@@ -1,0 +1,32 @@
+- name: install nginx repository
+  yum: name={{ item }}
+  with_items:
+    - http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+
+- name: enabled is 0
+  replace: dest=/etc/yum.repos.d/{{ item }} regexp="enabled *= *1" replace="enabled=0"
+  with_items:
+    - nginx.repo
+
+- name: install nginx
+  yum: name=nginx enablerepo=nginx
+
+- name: add chkconfig
+  command: chkconfig nginx on
+
+- stat: path=/etc/nginx/conf.d/default.conf
+  register: default_conf
+
+- name: remove default.conf
+  shell: mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.org
+  when: default_conf.stat.exists
+
+- name: install nginx.conf
+  copy: >
+    src={{ item }}
+    dest=/etc/nginx/{{ item }}
+    backup=yes
+    mode=0644
+  with_items:
+    - nginx.conf
+  notify: restart nginx

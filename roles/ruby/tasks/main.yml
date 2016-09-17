@@ -1,0 +1,49 @@
+- name: install package for ruby
+  yum: name={{ item }} state=latest
+  with_items:
+    - gcc
+    - gcc-c++
+    - zlib-devel
+    - openssl-devel
+    - readline-devel
+
+- name: install rbenv
+  git: >
+    repo=https://github.com/sstephenson/rbenv.git
+    dest=/usr/local/rbenv
+
+- name: install ruby-build
+  git: >
+    repo=https://github.com/sstephenson/ruby-build.git
+    dest=/usr/local/rbenv/plugins/ruby-build
+
+- name: install rbenv.sh
+  copy: >
+    src={{ item }}
+    dest=/etc/profile.d/{{ item }}
+    mode=0644
+  with_items:
+    - rbenv.sh
+
+- name: check ruby
+  shell: source ~/.bash_profile; rbenv versions | grep {{ ruby_ver }}
+  register: ruby_install
+  failed_when: ruby_install.rc not in [0, 1]
+
+- name: install ruby
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+    - cmd: echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+    - cmd: source ~/.bash_profile; rbenv -v
+    - cmd: source ~/.bash_profile; rbenv install -v '{{ ruby_ver }}'
+    - cmd: source ~/.bash_profile; rbenv rehash
+    - cmd: source ~/.bash_profile; rbenv global '{{ ruby_ver }}'
+    - cmd: source ~/.bash_profile; ruby -v
+  when: ruby_install.rc == 1
+
+- name: bundler gem should be installed
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: source ~/.bash_profile; gem install bundler
+    - cmd: source ~/.bash_profile; gem install mysql2
