@@ -536,8 +536,8 @@ postgresql['enable'] = false
 ## caveats: https://docs.gitlab.com/ce/administration/high_availability/redis.html
 
 ## Redis TCP support (will disable UNIX socket transport)
-redis['bind'] = '127.0.0.1'
-redis['port'] = 6379
+# redis['bind'] = '127.0.0.1'
+# redis['port'] = 6379
 
 ## Master redis instance (if this will act as a master instance uncomment and fill below)
 # redis['password'] = '<huge password string here>' # Only define this in the master instance
