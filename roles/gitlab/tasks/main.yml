@@ -38,7 +38,7 @@
   shell: source ~/.bash_profile; cd /opt/gitlab/embedded/service/gitlab-rails/; bundle install
 
 - name: reconfigure
-  command: gitlab-ctl reconfigure
+  shell: source ~/.bash_profile; gitlab-ctl reconfigure
 
 - name: install virtual host config for gitlab
   template: >
