@@ -20,8 +20,8 @@
   + 初期アカウントは admin / admin
 + 実行順
   + nginx
-  + ruby
   + mysql
+  + ruby
   + gitlab
   + redmine
 
