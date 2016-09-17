@@ -29,7 +29,7 @@
 - name: add unicorn to Gemfile
   shell: '{{ item.cmd }}'
   with_items:
-    - cmd: source ~/.bash_profile; cd {{ redmine_dir }}; echo -e "\n#add unicorn\ngem 'uniron'" >> Gemfile
+    - cmd: source ~/.bash_profile; cd {{ redmine_dir }}; echo -e "\n#add unicorn\ngem 'unicorn'" >> Gemfile
 
 - name: install database.yml
   template:
