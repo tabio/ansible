@@ -10,8 +10,8 @@ server {
 
   client_max_body_size 0;
 
-  access_log  /var/log/gitlab/nginx/gitlab_access.log gitlab_access;
-  error_log   /var/log/gitlab/nginx/gitlab_error.log;
+  access_log  /var/log/nginx/gitlab_access.log gitlab_access;
+  error_log   /var/log/nginx/gitlab_error.log;
 
   allow {{ allow_ip }};
   deny all;
