@@ -20,6 +20,10 @@ external_url_gitlab: http://xxxxxx # gitlabのドメイン名
 # redmine
 redmine_svn_url: http://svn.redmine.org/redmine/branches/3.2-stable
 redmine_theme_url: https://github.com/farend/redmine_theme_farend_basic.git
+redmine_theme_fancy_url: https://github.com/farend/redmine_theme_farend_fancy.git
+redmine_theme_flat_url: https://github.com/tsi/redmine-theme-flat
+redmine_theme_gitmike_url: https://github.com/makotokw/redmine-theme-gitmike
+redmine_plugin_slack_url: https://github.com/sciyoshi/redmine-slack.git
 redmine_dir: /var/lib/redmine
 redmine_domain:  # redmineのドメイン名
 redmine_font_path: /usr/share/fonts/truetype/takao-gothic/TakaoPGothic.ttf

@@ -8,7 +8,7 @@
     - CentOS-SCLo-scl-rh.repo
 
 - name: install python27
-  yum: name={{ item }} enablerepo=xxx
+  yum: name={{ item }} enablerepo=centos-sclo-sclo,centos-sclo-rh
   with_items:
     - python27
     - python27-python-tools

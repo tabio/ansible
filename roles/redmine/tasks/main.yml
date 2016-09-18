@@ -61,10 +61,35 @@
   with_items:
     - cmd: source ~/.bash_profile; cd {{ redmine_dir }}; bundle exec rake redmine:load_default_data RAILS_ENV=production REDMINE_LANG=ja
 
-- name: donwload thema farend_basic
+- name: donwload theme farend_basic
   git:
     repo={{ redmine_theme_url }}
     dest={{ redmine_dir }}/public/themes/farend_basic
+
+- name: donwload theme farend_fancy
+  git:
+    repo={{ redmine_theme_fancy_url }}
+    dest={{ redmine_dir }}/public/themes/farend_fancy
+
+- name: donwload theme flat
+  git:
+    repo={{ redmine_theme_flat_url }}
+    dest={{ redmine_dir }}/public/themes/flat
+
+- name: donwload theme gitmike
+  git:
+    repo={{ redmine_theme_gitmike_url }}
+    dest={{ redmine_dir }}/public/themes/gitmike
+
+- name: download redmine-slack
+  git:
+    repo={{ redmine_plugin_slack_url }}
+    dest={{ redmine_dir }}/plugins/redmine_slack
+
+- name: install redmine-slack
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: source ~/.bash_profile; cd {{ redmine_dir }}/plugins/redmine_slack; bundle install
 
 - name: add redmine user
   shell: useradd -s /sbin/nologin redmine
