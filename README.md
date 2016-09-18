@@ -13,6 +13,9 @@
   + redisはembededの物を利用
   + 設定の変更はgitlab-ctl reconfigure
   + 再起動はgitlab-ctl restart
+  + 初期アカウント root / 5iveL!fe
+  + ログイン後path
+    + http://xxx/users/sign_in
 + redmine
   + 3.2系
   + nginx
