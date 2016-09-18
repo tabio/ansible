@@ -4,6 +4,8 @@ upstream gitlab-workhorse {
 
 server {
   listen *:80;
+  # listen 443;
+  # ssl    on;
 
   server_name {{ gitlab_domain }};
   server_tokens off;
@@ -15,6 +17,10 @@ server {
 
   allow {{ allow_ip }};
   deny all;
+
+  # ssl
+  # ssl_certificate /etc/letsencrypt/live/{{ gitlab_domain }}/fullchain.pem;
+  # ssl_certificate_key /etc/letsencrypt/live/{{ gitlab_domain }}/privkey.pem;
 
   # ref
   # https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/support/nginx/gitlab

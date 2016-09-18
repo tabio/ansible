@@ -15,6 +15,7 @@ mysql_user_gitlab: gitlab
 mysql_pass_gitlab: # gitlab用のパスワード
 external_users_gitlab: nginx
 external_url_gitlab: http://xxxxxx # gitlabのドメイン名
+#external_url_gitlab: https://xxxxxx # gitlabのドメイン名
 
 # redmine
 redmine_svn_url: http://svn.redmine.org/redmine/branches/3.2-stable
