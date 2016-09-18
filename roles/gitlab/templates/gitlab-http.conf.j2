@@ -15,6 +15,7 @@ server {
   access_log  /var/log/nginx/gitlab_access.log gitlab_access;
   error_log   /var/log/nginx/gitlab_error.log;
 
+  allow 127.0.0.1;      # for gitlab-ci
   allow {{ allow_ip }};
   deny all;
 

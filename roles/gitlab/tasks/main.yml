@@ -11,16 +11,23 @@
     - postfix
     - cronie
 
-- name: execute install script
+- name: execute install script (gitlab-ce)
   shell: curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | bash
+
+- name: execute install script (gitlab-ci)
+  shell: curl -sS https://packages.gitlab.com/install/repositories/runner/gitlab-ci-multi-runner/script.rpm.sh | bash
 
 - name: enabled is 0
   replace: dest=/etc/yum.repos.d/{{ item }} regexp="enabled *= *1" replace="enabled=0"
   with_items:
     - gitlab_gitlab-ce.repo
+    - runner_gitlab-ci-multi-runner.repo
 
 - name: install gitlab-ce
   yum: name=gitlab-ce enablerepo=gitlab_gitlab-ce
+
+- name: install gitlab-ci
+  yum: name=gitlab-ci-multi-runner enablerepo=runner_gitlab-ci-multi-runner,runner_gitlab-ci-multi-runner-source
 
 - name: install gitlab.rb
   template: >

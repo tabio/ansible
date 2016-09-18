@@ -91,6 +91,11 @@
   with_items:
     - cmd: source ~/.bash_profile; cd {{ redmine_dir }}/plugins/redmine_slack; bundle install
 
+- name: install clipboard_image_paste
+  git:
+    repo=https://github.com/peclik/clipboard_image_paste.git
+    dest={{ redmine_dir }}/plugins/clipboard_image_paste
+
 - name: add redmine user
   shell: useradd -s /sbin/nologin redmine
 
