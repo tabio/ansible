@@ -1,0 +1,14 @@
+- name: install centos-release-scl
+  yum: name=centos-release-scl
+
+- name: enabled is 0
+  replace: dest=/etc/yum.repos.d/{{ item }} regexp="enabled *= *1" replace="enabled=0"
+  with_items:
+    - CentOS-SCLo-scl.repo
+    - CentOS-SCLo-scl-rh.repo
+
+- name: install python27
+  yum: name={{ item }} enablerepo=xxx
+  with_items:
+    - python27
+    - python27-python-tools
