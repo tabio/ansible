@@ -27,6 +27,7 @@
   + ruby
   + gitlab
   + redmine
+  + letsencrypt
 
 # playbookの実行
 ```
