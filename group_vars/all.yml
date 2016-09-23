@@ -31,3 +31,6 @@ redmine_font_path: /usr/share/fonts/truetype/takao-gothic/TakaoPGothic.ttf
 mysql_db_redmine: redmine
 mysql_user_redmine: redmine
 mysql_pass_redmine: # redmine用のパスワード
+
+# elasticsearch
+cluster_name: # cluster_name

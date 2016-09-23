@@ -22,6 +22,7 @@
   shell: '{{ item.cmd }}'
   with_items:
     - cmd: echo -e "\n#add network config\nnetwork.host{{colon}} 127.0.0.1" >> /etc/elasticsearch/elasticsearch.yml
+    - cmd: echo -e "\n#add cluster name\ncluster.name{{colon}} {{cluster_name}}" >> /etc/elasticsearch/elasticsearch.yml
 
 - name: add plugin
   shell: '{{ item.cmd }}'
