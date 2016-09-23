@@ -28,6 +28,7 @@
   + gitlab
   + redmine
   + letsencrypt
+  + elastcisearch
 
 # playbookの実行
 ```

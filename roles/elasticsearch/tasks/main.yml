@@ -1,0 +1,40 @@
+- name: install GPG key
+  command: rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+
+- name: install repository
+  copy: >
+    src={{ item }}
+    dest=/etc/yum.repos.d/{{ item }}
+    mode=0644
+  with_items:
+    - elasticsearch.repo
+
+- name: install java
+  yum: name=java-1.8.0-openjdk-devel
+
+- name: install elasticsearch
+  yum: name=elasticsearch enablerepo=elasticsearch-2.x
+
+- name: add chkconfig
+  command: chkconfig --add elasticsearch
+
+- name: modify elasticsearch.yml
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: echo -e "\n#add network config\nnetwork.host{{colon}} 127.0.0.1" >> /etc/elasticsearch/elasticsearch.yml
+
+- name: add plugin
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: cd /usr/share/elasticsearch; bin/plugin install analysis-kuromoji
+    - cmd: cd /usr/share/elasticsearch; bin/plugin install mobz/elasticsearch-head
+    - cmd: cd /usr/share/elasticsearch; bin/plugin install polyfractal/elasticsearch-inquisitor
+
+- name: service start
+  command: service elasticsearch start
+
+- name: check plugin
+  command: curl -X GET localhost:9200/_nodes/plugins?pretty
+  register: result
+
+- debug: var=result
