@@ -30,6 +30,29 @@
   + letsencrypt
   + elastcisearch
 
+# 事前準備
+- ssh
+  - サーバーにログインして公開鍵方式で認証できるようにする
+  - rootログイン無効とパスワード認証を禁止
+```
+vi /etc/ssh/sshd_config
+PermitRootLogin no
+PasswordAuthentication no
+
+systemctl restart sshd
+```
+  - sshのportを変更
+```
+vi /etc/ssh/sshd_config # Port 22の部分を変更
+systemctl restart sshd # 設定の反映
+```
+  - firewall側のsshのportも変更
+```
+vi /usr/lib/firewalld/services/ssh.xml # port="22"の部分を変更
+firewall-cmd --reload # 設定の反映
+firewall-cmd --list-all --zone=public --permanent # 公開されているポートの確認
+```
+
 # playbookの実行
 ```
 ansible-playbook -i host playbook名
