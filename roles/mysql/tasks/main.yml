@@ -12,7 +12,7 @@
     - mysql-community.repo
 
 - name: install mysql8.0
-  yum: name=mysql-community-server
+  yum: name=mysql-community-server,mysql-community-devel enablerepo=mysql80-community
 
 - name: add systemctl
   command: systemctl enable mysqld

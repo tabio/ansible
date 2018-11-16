@@ -1,10 +1,11 @@
 # 概要
 + ansibleはmacにインストール
-+ CentOS 6.8にて実行
++ CentOS 7.5にて実行
 + ruby
-  + 2.3.1
+  + 2.5.3
   + rbenvを利用
-+ mysql 5.7
++ mysql 8.0
++ vim 8.1
 + redis
   + 3系
 + gitlab
@@ -21,16 +22,12 @@
   + nginx
   + unicorn
   + 初期アカウントは admin / admin
-+ 実行順
-  + nginx
-  + mysql
-  + ruby
-  + gitlab
-  + redmine
-  + letsencrypt
-  + elastcisearch
 
 # 事前準備
+- ansibleインストール
+```
+brew install ansible
+```
 - ssh
   - サーバーにログインして公開鍵方式で認証できるようにする
   - rootログイン無効とパスワード認証を禁止
