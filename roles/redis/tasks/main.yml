@@ -1,7 +1,7 @@
 - name: install remi repository
   yum: name={{ item }}
   with_items:
-    - http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+    - http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 
 - name: enabled is 0
   replace: dest=/etc/yum.repos.d/{{ item }} regexp="enabled *= *1" replace="enabled=0"
@@ -11,12 +11,14 @@
 - name: install redis
   yum: name=redis enablerepo=remi,remi-test,epel
 
-- name: add chkconfig
-  command: chkconfig redis on
+- name: add systemctl
+  command: systemctl enable redis
 
 - name: replace /etc/redis.conf
   replace: dest=/etc/redis.conf regexp='# unixsocket /tmp/redis.sock' replace='unixsocket /tmp/redis.sock'
   replace: dest=/etc/redis.conf regexp='# unixsocketperm 700' replace='unixsocketperm 770'
 
 - name: restart redis
-  service: name=redis state=restarted
+  systemd:
+    name: redis
+    state: restarted

@@ -53,6 +53,13 @@ firewall-cmd --reload # 設定の反映
 firewall-cmd --list-all --zone=public --permanent # 公開されているポートの確認
 ```
 
+- webサーバー
+```
+# 443ポート開放
+firewall-cmd --add-port=443/tcp --zone=public --permanent
+firewall-cmd --reload
+```
+
 # playbookの実行
 ```
 ansible-playbook -i host playbook名

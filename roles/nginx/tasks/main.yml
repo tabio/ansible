@@ -1,7 +1,7 @@
 - name: install nginx repository
   yum: name={{ item }}
   with_items:
-    - http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+    - http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
 
 - name: enabled is 0
   replace: dest=/etc/yum.repos.d/{{ item }} regexp="enabled *= *1" replace="enabled=0"
@@ -11,8 +11,8 @@
 - name: install nginx
   yum: name=nginx enablerepo=nginx
 
-- name: add chkconfig
-  command: chkconfig nginx on
+- name: add systemctl
+  command: systemctl enable nginx
 
 - stat: path=/etc/nginx/conf.d/default.conf
   register: default_conf

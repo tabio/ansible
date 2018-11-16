@@ -1,12 +1,9 @@
-# mysql 5.7
+# mysql 8.0
 # インストール後は初期化とユーザー追加は別途必要
-- name: add signature
-  command: rpm --import http://dev.mysql.com/doc/refman/5.7/en/checking-gpg-signature.html
-
 - name: install mysql repository
   yum: name={{ item }}
   with_items:
-    - http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm
+    - https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm
 
 - name: enabled is 0
   replace: dest=/etc/yum.repos.d/{{ item }} regexp="enabled *= *1" replace="enabled=0"
@@ -14,20 +11,11 @@
     - mysql-community-source.repo
     - mysql-community.repo
 
-- name: yumリポジトリをlistする
-  command: yum --disablerepo=\* --enablerepo='mysql57-community*' list available
+- name: install mysql8.0
+  yum: name=mysql-community-server
 
-- name: install mysql5.7(mysql-community-server)
-  yum: name=mysql-community-server enablerepo=mysql57-community*
-
-- name: install mysql5.7(mysql-community-devel)
-  yum: name=mysql-community-devel enablerepo=mysql57-community*
-
-- name: install mysql5.7(mysql-python)
-  yum: name=MySQL-python enablerepo=mysql57-community*
-
-- name: add chkconfig
-  command: chkconfig mysqld on
+- name: add systemctl
+  command: systemctl enable mysqld
 
 - name: install my.cnf
   template: >
