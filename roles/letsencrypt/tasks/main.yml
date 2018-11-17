@@ -1,14 +1,13 @@
-- name: install centos-release-scl
-  yum: name=centos-release-scl
+- name: check repository
+  stat: path=/etc/yum.repos.d/epel.repo
+  register: epel_repo
 
-- name: enabled is 0
-  replace: dest=/etc/yum.repos.d/{{ item }} regexp="enabled *= *1" replace="enabled=0"
-  with_items:
-    - CentOS-SCLo-scl.repo
-    - CentOS-SCLo-scl-rh.repo
+- name: install certbot
+  yum:
+    name: certbot
 
-- name: install python27
-  yum: name={{ item }} enablerepo=centos-sclo-sclo,centos-sclo-rh
-  with_items:
-    - python27
-    - python27-python-tools
+- block:
+  - name: install certbot
+    yum:
+      name: certbot
+  when: not epel_repo.stat.exists
