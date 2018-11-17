@@ -52,8 +52,10 @@ firewall-cmd --list-all --zone=public --permanent # 公開されているポー�
 - webサーバー
 ```
 # 443ポート開放
-firewall-cmd --add-port=443/tcp --zone=public --permanent
+firewall-cmd --add-service=http --permanent
+firewall-cmd --add-service=https --permanent
 firewall-cmd --reload
+firewall-cmd --list-all --zone=public --permanent
 ```
 
 # playbookの実行

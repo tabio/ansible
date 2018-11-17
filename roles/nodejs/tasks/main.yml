@@ -1,0 +1,7 @@
+- name: remove nodejs
+  yum:
+    name: nodejs
+    state: absent
+ 
+- name: install nodejs 10.13.0
+  shell: rpm -Uvh https://rpm.nodesource.com/pub_10.x/el/7/x86_64/nodejs-10.13.0-1nodesource.x86_64.rpm
