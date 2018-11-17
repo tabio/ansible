@@ -5,3 +5,17 @@
  
 - name: install nodejs 10.13.0
   shell: rpm -Uvh https://rpm.nodesource.com/pub_10.x/el/7/x86_64/nodejs-10.13.0-1nodesource.x86_64.rpm
+
+- name: yarn repository
+  get_url: url=https://dl.yarnpkg.com/rpm/yarn.repo dest=/etc/yum.repos.d/yarn.repo
+
+- name: enabled is 0
+  replace: dest=/etc/yum.repos.d/{{ item }} regexp="enabled *= *1" replace="enabled=0"
+  with_items:
+    - yarn.repo
+
+- name: install yarn
+  yum:
+    name: yarn
+    enablerepo: yarn
+

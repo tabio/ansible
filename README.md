@@ -8,6 +8,7 @@
 + vim 8.1
 + redis
 + nodejs 10.13
+  + yarn latest
 + gitlab
   + nginxは自前
   + DBはmysqlを使用するよう変更
