@@ -1,6 +1,7 @@
 allow_ip: # private IP
 colon: ':'
 ruby_ver: 2.5.3
+python_ver: 3.6.7
 
 # redis
 redis_socket: /tmp/redis.sock

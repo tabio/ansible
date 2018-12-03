@@ -1,0 +1,42 @@
+- name: install package for python
+  yum: name={{ item }} state=latest
+  with_items:
+    - gcc
+    - zlib-devel 
+    - bzip2 
+    - bzip2-devel
+    - readline
+    - readline-devel 
+    - sqlite
+    - sqlite-devel
+    - openssl
+    - openssl-devel
+
+- name: install pyenv
+  git: >
+    repo=https://github.com/pyenv/pyenv.git
+    dest=/usr/local/pyenv
+
+- name: install pyenv.sh
+  copy: >
+    src={{ item }}
+    dest=/etc/profile.d/{{ item }}
+    mode=0644
+  with_items:
+    - pyenv.sh
+
+- name: check python
+  shell: source ~/.bash_profile; pyenv versions | grep {{ python_ver }}
+  register: python_install
+  failed_when: python_install.rc not in [0, 1]
+
+- name: install python
+  shell: '{{ item.cmd }}'
+  with_items:
+    - cmd: echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bash_profile
+    - cmd: echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
+    - cmd: source ~/.bash_profile; pyenv -v
+    - cmd: source ~/.bash_profile; pyenv install -v '{{ python_ver }}'
+    - cmd: source ~/.bash_profile; pyenv rehash
+    - cmd: source ~/.bash_profile; pyenv global '{{ python_ver }}'
+  when: python_install.rc == 1

@@ -13,10 +13,10 @@
   yum: name=java-1.8.0-openjdk-devel
 
 - name: install elasticsearch
-  yum: name=elasticsearch enablerepo=elasticsearch-2.x
+  yum: name=elasticsearch enablerepo=elasticsearch-6.x
 
-- name: add chkconfig
-  command: chkconfig --add elasticsearch
+- name: add systemctl
+  command: systemctl enable elasticsearch
 
 - name: modify elasticsearch.yml
   shell: '{{ item.cmd }}'
