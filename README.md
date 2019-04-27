@@ -1,6 +1,6 @@
 # 概要
 + ansibleはmacにインストール
-+ CentOS 7.5にて実行
++ CentOS 7系にて実行
 + ruby
   + 2.6.3
   + rbenvを利用
@@ -62,7 +62,8 @@ firewall-cmd --list-all --zone=public --permanent
 
 # playbookの実行
 ```
-ansible-playbook -i host playbook名
+vi host # 対象サーバー情報の修正
+ansible-playbook -i host playbook名(ex. ruby.yml)
 ```
 
 # mysqlの初期設定に関して
