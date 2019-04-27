@@ -2,7 +2,7 @@
 + ansibleはmacにインストール
 + CentOS 7.5にて実行
 + ruby
-  + 2.5.3
+  + 2.6.3
   + rbenvを利用
 + mysql 8.0
 + vim 8.1
