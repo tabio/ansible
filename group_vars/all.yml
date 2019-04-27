@@ -1,6 +1,6 @@
 allow_ip: # private IP
 colon: ':'
-ruby_ver: 2.5.3
+ruby_ver: 2.6.3
 python_ver: 3.6.7
 
 # redis
